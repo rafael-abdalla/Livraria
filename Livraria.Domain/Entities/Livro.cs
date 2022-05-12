@@ -19,7 +19,7 @@ namespace Livraria.Domain.Entities
         [Key]
         [Column("Id")]
         [Display(Name = "Código")]
-        public Guid Id { get; protected set; }
+        public Guid Id { get; private set; }
 
         [Column("Titulo")]
         [Display(Name = "Título")]

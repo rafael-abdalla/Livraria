@@ -1,0 +1,47 @@
+﻿@inherits LayoutComponentBase
+
+<Layout Style="min-height: 100vh; ">
+    <Sider Collapsible Collapsed=@collapsed OnCollapse=@onCollapse>
+        <div class="logo" />
+        <Menu Theme="MenuTheme.Dark" Mode="MenuMode.Inline">
+            <MenuItem Key="1" RouterLink="/">
+                <Icon Type="home" Theme="outline" />
+                <span>Início</span>
+            </MenuItem>
+            <MenuItem Key="2" RouterLink="/procura">
+                <Icon Type="search" Theme="outline" />
+                <span>Procurar livro</span>
+            </MenuItem>
+        </Menu>
+    </Sider>
+    <Layout Class="site-layout" >
+        <Header Class="site-layout-background" Style=" padding: 0;" ></Header>
+        <Content Style="margin:0 16px;" >
+            @Body
+        </Content>
+        <Footer Style="text-align:center ">Livraria ©@DateTime.Now.Year</Footer>
+    </Layout>
+</Layout>
+
+
+@code {
+    bool collapsed;
+
+   void onCollapse(bool collapsed) {
+        Console.WriteLine(collapsed);
+        this.collapsed =collapsed;
+    }
+}
+
+
+<style>
+    #components-layout-demo-side .logo {
+        height: 32px;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 16px;
+    }
+
+    .site-layout .site-layout-background {
+        background: #fff;
+    }
+</style>

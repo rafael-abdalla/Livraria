@@ -1,4 +1,4 @@
-﻿using Livraria.Application.DTOs;
+﻿using Livraria.Application.DTOs.Request;
 using Livraria.Domain.Entities;
 using Livraria.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +34,7 @@ namespace Livraria.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Inserir([FromBody] InserirLivroDto request)
+        public async Task<IActionResult> Inserir([FromBody] InserirLivroRequest request)
         {
             try
             {

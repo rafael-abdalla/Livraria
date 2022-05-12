@@ -33,7 +33,7 @@ namespace Livraria.Data.Repositories
         public async Task<Livro?> ObterPorId(Guid id) =>
             await _context.Livro.AsNoTracking().Where(x => x.Id == id).FirstOrDefaultAsync();
 
-        public async Task<IEnumerable<Livro>> ObterTodos() =>
+        public async Task<List<Livro>> ObterTodos() =>
             await _context.Livro.AsNoTracking().ToListAsync();
 
         public void Dispose() =>

@@ -3,16 +3,16 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:27409",
+      "applicationUrl": "http://localhost:25316",
       "sslPort": 0
     }
   },
   "profiles": {
-    "Livaria.Blazor": {
+    "Livraria.Blazor": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5122",
+      "applicationUrl": "http://localhost:5112",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

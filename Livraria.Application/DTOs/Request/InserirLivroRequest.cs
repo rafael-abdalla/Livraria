@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Livraria.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace Livraria.Application.DTOs
+namespace Livraria.Application.DTOs.Request
 {
-    public class InserirLivroDto
+    public class InserirLivroRequest
     {
         [Required(ErrorMessage = "Titulo obrigatório.", AllowEmptyStrings = false), MaxLength(250)]
         public string? Titulo { get; set; }
@@ -20,5 +21,10 @@ namespace Livraria.Application.DTOs
 
         [Display(Name = "Data de publicação")]
         public DateTime? DataPublicacao { get; set; }
+
+        public static Livro ConverterParaEntidade(InserirLivroRequest dto)
+        {
+            return new Livro(Guid.NewGuid(), dto.Titulo, dto.Autor, dto.Quantidade, dto.Preco, dto.DataPublicacao);
+        }
     }
 }

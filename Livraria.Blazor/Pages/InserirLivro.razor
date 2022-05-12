@@ -1,0 +1,75 @@
+﻿@page "/inserir"
+
+@using System.Text.Json;
+@using Livraria.Application.DTOs.Request
+@using Livraria.Domain.Repositories
+
+@inject ILivroRepository repository;
+@inject MessageService _message
+
+<br />
+
+<Breadcrumb>
+	<BreadcrumbItem>Livro</BreadcrumbItem>
+	<BreadcrumbItem>Inserir</BreadcrumbItem>
+</Breadcrumb>
+
+<br />
+
+<Form Loading="loading" Model="@model" 
+      LabelColSpan="8"
+      WrapperColSpan="8"
+      OnFinish="OnFinish" 
+      OnFinishFailed="OnFinishFailed">
+    <FormItem Label="Título" >
+        <Input @bind-Value="@context.Titulo"/>
+    </FormItem>
+    <FormItem Label="Autor" >
+        <Input @bind-Value="@context.Autor"/>
+    </FormItem>
+    <FormItem Label="Quantidade" >
+        <Input @bind-Value="@context.Quantidade"/>
+    </FormItem>
+    <FormItem Label="Preço" >
+        <Input @bind-Value="@context.Preco"/>
+    </FormItem>
+    <FormItem Label="Data de publicação">
+        <DatePicker @bind-Value="@context.DataPublicacao" />
+    </FormItem>
+    <FormItem WrapperColOffset="8" WrapperColSpan="16">
+        <Button Type="@ButtonType.Primary" HtmlType="submit">
+            Submit
+        </Button>
+    </FormItem>
+</Form>
+
+
+@code {
+    private InserirLivroRequest model = new InserirLivroRequest();
+
+    private async void OnFinish(EditContext editContext)
+    {
+        try
+        {
+            loading = true;
+            await repository.Inserir(InserirLivroRequest.ConverterParaEntidade(model));
+            model = new InserirLivroRequest();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            await _message.Error("Falha ao cadastrar livro");
+        } finally
+        {
+            loading = false;
+            StateHasChanged();
+        }
+    }
+
+    private void OnFinishFailed(EditContext editContext)
+    {
+        Console.WriteLine($"Failed:{JsonSerializer.Serialize(model)}");
+    }
+
+    bool loading = false;
+}
