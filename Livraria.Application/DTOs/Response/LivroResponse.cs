@@ -5,6 +5,8 @@ namespace Livraria.Application.DTOs.Request
 {
     public class LivroResponse
     {
+        public Guid Id { get; set; }
+
         [Display(Name = "Título")]
         public string? Titulo { get; set; }
 
@@ -22,6 +24,7 @@ namespace Livraria.Application.DTOs.Request
         {
             return new LivroResponse
             {
+                Id = livro.Id,
                 Titulo = livro.Titulo,
                 Autor = livro.Autor,
                 Quantidade = livro.Quantidade,

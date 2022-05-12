@@ -9,5 +9,6 @@ namespace Livraria.Domain.Repositories
         Task Inserir(Livro livro);
         Task Atualizar(Livro livro);
         Task Eliminar(Livro livro);
+        Task Eliminar(Guid id);
     }
 }

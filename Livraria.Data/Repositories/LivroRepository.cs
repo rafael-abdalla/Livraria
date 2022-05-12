@@ -24,6 +24,12 @@ namespace Livraria.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task Eliminar(Guid id)
+        {
+            var livro = await ObterPorId(id);
+            await Eliminar(livro!);
+        }
+
         public async Task Inserir(Livro livro)
         {
             _context.Add(livro);
@@ -31,10 +37,10 @@ namespace Livraria.Data.Repositories
         }
 
         public async Task<Livro?> ObterPorId(Guid id) =>
-            await _context.Livro.AsNoTracking().Where(x => x.Id == id).FirstOrDefaultAsync();
+            await _context.Livro!.AsNoTracking().Where(x => x.Id == id).FirstOrDefaultAsync();
 
         public async Task<List<Livro>> ObterTodos() =>
-            await _context.Livro.AsNoTracking().ToListAsync();
+            await _context.Livro!.AsNoTracking().ToListAsync();
 
         public void Dispose() =>
             _context.Dispose();

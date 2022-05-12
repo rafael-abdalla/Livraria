@@ -12,6 +12,10 @@
                 <Icon Type="search" Theme="outline" />
                 <span>Procurar livro</span>
             </MenuItem>
+            <MenuItem Key="3" RouterLink="/inserir">
+                <Icon Type="file-add" Theme="outline" />
+                <span>Inserir</span>
+            </MenuItem>
         </Menu>
     </Sider>
     <Layout Class="site-layout" >
@@ -19,7 +23,7 @@
         <Content Style="margin:0 16px;" >
             @Body
         </Content>
-        <Footer Style="text-align:center ">Livraria ©@DateTime.Now.Year</Footer>
+        <Footer Style="text-align:center ">© Copyright @DateTime.Now.Year Livraria</Footer>
     </Layout>
 </Layout>
 

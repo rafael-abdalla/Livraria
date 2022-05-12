@@ -1,0 +1,95 @@
+﻿@page "/procura"
+
+@using AntDesign.TableModels
+@using Livraria.Application.DTOs.Request
+@using Livraria.Domain.Entities
+@using Livraria.Domain.Repositories
+
+@inject ILivroRepository repository;
+@inject MessageService _message
+@inject NavigationManager NavManager
+
+<br />
+
+<Breadcrumb>
+	<BreadcrumbItem>Livro</BreadcrumbItem>
+	<BreadcrumbItem>Procurar</BreadcrumbItem>
+</Breadcrumb>
+
+<br />
+
+<Button Type="@ButtonType.Primary" Icon="@IconType.Outline.FileAdd" OnClick="Inserir">Inserir</Button>
+
+<br />
+<br />
+
+<Table @ref="table"
+       TItem="LivroResponse"
+       DataSource="@livros"
+       Total="_total"
+       @bind-PageIndex="_pageIndex"
+       @bind-PageSize="_pageSize"
+>
+    <Column @bind-Field="@context.Titulo" Sortable />
+    <Column @bind-Field="@context.Autor" Sortable />
+    <Column @bind-Field="@context.Quantidade" Sortable />
+    <Column @bind-Field="@context.Preco" Sortable />
+    <Column @bind-Field="@context.DataPublicacao" Format="dd/MM/yyyy" Sortable />
+    <ActionColumn>
+        <Space>
+            <SpaceItem>
+                <Button Type="@ButtonType.Primary" Shape="@ButtonShape.Circle" OnClick="() => Atualizar(context.Id)" Icon="@IconType.Outline.Edit" />
+            </SpaceItem>
+            <SpaceItem>
+                <Popconfirm Title="Deseja eliminar o registro?" Icon="close-circle" OnConfirm="() => Eliminar(context.Id)">
+                    <Button Danger Type="@ButtonType.Primary" Shape="@ButtonShape.Circle" Icon="@IconType.Outline.Delete" />
+                </Popconfirm>
+            </SpaceItem>
+        </Space>
+    </ActionColumn>
+</Table>
+
+@code {
+    IEnumerable<LivroResponse> livros;
+
+    ITable table;
+
+    int _pageIndex = 1;
+    int _pageSize = 10;
+    int _total = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        CarregarDados();
+    }
+
+    private async void CarregarDados()
+    {
+        var response = await repository.ObterTodos();
+        livros = response.Select(livro => LivroResponse.ConverterParaResponse(livro));
+        _total = livros.Count();
+        StateHasChanged();
+    }
+
+    private void Inserir() =>
+        NavManager.NavigateTo("/inserir");
+
+    private void Atualizar(Guid id) =>
+        NavManager.NavigateTo($"/livro/{id}");
+
+
+    private async void Eliminar(Guid id)
+    {
+        try
+        {
+            await repository.Eliminar(id);
+            await _message.Success("Eliminado com sucesso");
+            CarregarDados();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            await _message.Error("Falha ao carregar dados");
+        }
+    }
+}

@@ -1,17 +1,18 @@
-﻿@page "/inserir"
+﻿@page "/livro/{id}"
 
-@using System.Text.Json;
 @using Livraria.Application.DTOs.Request
 @using Livraria.Domain.Repositories
+@using System.Text.Json
 
 @inject ILivroRepository repository;
 @inject MessageService _message
+@inject NavigationManager NavManager
 
 <br />
 
 <Breadcrumb>
 	<BreadcrumbItem>Livro</BreadcrumbItem>
-	<BreadcrumbItem>Inserir</BreadcrumbItem>
+	<BreadcrumbItem>Atualizar</BreadcrumbItem>
 </Breadcrumb>
 
 <br />
@@ -38,7 +39,7 @@
     </FormItem>
     <FormItem WrapperColOffset="8" WrapperColSpan="16">
         <Button Type="@ButtonType.Primary" HtmlType="submit">
-            Inserir
+            Atualizar
         </Button>
         <Button HtmlType="button" OnClick="@Reset">
             Limpar
@@ -47,21 +48,29 @@
 </Form>
 
 @code {
-    private InserirLivroRequest model = new InserirLivroRequest();
+    [Parameter] public string Id { get; set; }
+
+    private AtualizarLivroRequest model = new AtualizarLivroRequest();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await repository.ObterPorId(Guid.Parse(Id));
+        model = AtualizarLivroRequest.ConverterParaRequest(response!);
+    }
 
     private async void OnFinish(EditContext editContext)
     {
         try
         {
             loading = true;
-            await repository.Inserir(InserirLivroRequest.ConverterParaEntidade(model));
-            await _message.Success("Inserido com sucesso");
-            Reset();
+            await repository.Atualizar(AtualizarLivroRequest.ConverterParaEntidade(model));
+            await _message.Success("Atualizado com sucesso");
+            NavManager.NavigateTo($"/procura");
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            await _message.Error("Falha ao inserir");
+            await _message.Error("Falha ao atualizar");
         } finally
         {
             loading = false;
@@ -69,13 +78,13 @@
         }
     }
 
-    private void Reset() =>
-        model = new InserirLivroRequest();
-
     private void OnFinishFailed(EditContext editContext)
     {
         Console.WriteLine($"Failed:{JsonSerializer.Serialize(model)}");
     }
+
+    private void Reset() =>
+        model = new AtualizarLivroRequest();
 
     bool loading = false;
 }
