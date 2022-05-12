@@ -22,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Livraria.Data\Livraria.Data.csproj" />
+    <ProjectReference Include="..\Livraria.Application\Livraria.Application.csproj" />
+    <ProjectReference Include="..\Livraria.IoC\Livraria.IoC.csproj" />
   </ItemGroup>
 
 </Project>

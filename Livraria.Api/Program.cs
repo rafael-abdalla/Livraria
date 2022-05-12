@@ -1,7 +1,4 @@
-using Livraria.Data.Context;
-using Livraria.Data.Repositories;
-using Livraria.Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
+using Livraria.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,10 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<LivrariaContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddScoped<ILivroRepository, LivroRepository>();
+builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
 

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Livraria.Data.Migrations
 {
     [DbContext(typeof(LivrariaContext))]
-    [Migration("20220511022741_PrimeiraMigration")]
+    [Migration("20220511165659_PrimeiraMigration")]
     partial class PrimeiraMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

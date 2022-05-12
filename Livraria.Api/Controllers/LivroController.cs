@@ -1,4 +1,4 @@
-﻿using Livraria.Api.DTOs;
+﻿using Livraria.Application.DTOs;
 using Livraria.Domain.Entities;
 using Livraria.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
